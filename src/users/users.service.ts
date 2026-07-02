@@ -26,7 +26,7 @@ export class UsersService {
 
   async update(id: number, user: { name: string; email: string }) {
 
-    this.prisma.user.update({
+    return this.prisma.user.update({
         where:
         {
             id,
@@ -37,7 +37,7 @@ export class UsersService {
   }
 
   async patch(id: number, user: Partial<{ name: string; email: string }>) {
-    this.prisma.user.update({
+    return this.prisma.user.update({
       where:{
         id,
       },

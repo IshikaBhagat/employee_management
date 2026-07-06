@@ -12,14 +12,18 @@ import { UsersService } from './users.service';
 import {ApiTags} from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto'
+import { ConfigService } from '@nestjs/config';
 
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly config:ConfigService,
+    private readonly usersService: UsersService) {}
 
   @Get()
   findAll() {
+    const environment = this.config.get('PORT')
+    console.log(">>>>",environment)
     return this.usersService.findAll();
   }
 
@@ -41,13 +45,6 @@ export class UsersController {
     return this.usersService.update(Number(id), updateUserDto);
   }
 
-  @Patch(':id')
-  patch(
-    @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    return this.usersService.patch(Number(id), updateUserDto);
-  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

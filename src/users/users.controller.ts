@@ -26,6 +26,7 @@ export class UsersController {
     private readonly usersService: UsersService,
   ) {}
 
+  @ApiBearerAuth()
   @Get() // method decorator
   findAll() {
     //usin config service get method
@@ -44,7 +45,7 @@ export class UsersController {
     return this.usersService.findOne(Number(id));
   }
 
-  // @ApiBearerAuth()
+  @ApiBearerAuth()
   // @UseGuards(AccessTokenGuard) -- for single guard apply on a route
   @Auth(AuthType.None)
   @Post()

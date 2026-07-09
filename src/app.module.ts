@@ -10,9 +10,11 @@ import { AuthModule } from './auth/auth.module';
 import environmentValidation from './config/environmemt.validation';
 import jwtConfig from './auth/config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AccessTokenGuard } from './auth/guards/access-token.guard';
 import { join } from 'path';
+import { DataResponseInterceptor } from './common/interceptors/data-response.interceptor';
+import appConfig from './config/app.config';
 
 const ENV = process.env.NODE_ENV;
 
@@ -23,13 +25,14 @@ console.log('ENV-->', ENV, join(process.cwd(), `.env.${ENV}`));
     UsersModule,
     PrismaModule,
     PostsModule,
-    // ConfigModule.forFeature(jwtConfig),
+    ConfigModule.forFeature(jwtConfig),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: join(process.cwd(), `.env.${ENV}`),
+      load: [appConfig],
       validationSchema: environmentValidation,
     }),
-    // JwtModule.registerAsync(jwtConfig.asProvider()),
+    JwtModule.registerAsync(jwtConfig.asProvider()),
     PaginationModule,
     AuthModule,
   ],
@@ -39,7 +42,11 @@ console.log('ENV-->', ENV, join(process.cwd(), `.env.${ENV}`));
     // {
     //       provide: APP_GUARD,
     //       useClass: AccessTokenGuard
-    //     }
+    //     },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DataResponseInterceptor,
+    },
   ],
 })
 export class AppModule {}

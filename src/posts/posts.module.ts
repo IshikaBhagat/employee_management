@@ -7,6 +7,6 @@ import { PostfilterProvider } from './providers/postfilter.provider';
 @Module({
   imports: [PaginationModule],
   controllers: [PostsController],
-  providers: [PostsService, PostfilterProvider]
+  providers: [PostsService, PostfilterProvider],
 })
 export class PostsModule {}

@@ -44,8 +44,8 @@ export class PostfilterProvider {
           [query.sortBy]: query.order ?? 'asc',
         }
       : {
-      id: 'asc',
-    };
+          id: 'asc',
+        };
     return {
       where,
       orderBy,

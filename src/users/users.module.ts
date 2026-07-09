@@ -1,4 +1,4 @@
-import { Module,forwardRef } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { AuthModule } from 'src/auth/auth.module';
@@ -9,18 +9,20 @@ import { AuthModule } from 'src/auth/auth.module';
 // import { AccessTokenGuard } from 'src/auth/guards/access-token.guard';
 
 @Module({
-  imports: [forwardRef(()=>AuthModule)
+  imports: [
+    forwardRef(() => AuthModule),
     // ConfigModule.forFeature(jwtConfig),
     // JwtModule.registerAsync(jwtConfig.asProvider())
   ],
   controllers: [UsersController],
   //to apply global guards(all modules will be guarded)
-  providers: [UsersService,
+  providers: [
+    UsersService,
     // {
     //   provide: APP_GUARD,
     //   useClass: AccessTokenGuard
     // }
   ],
-  exports:[UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}

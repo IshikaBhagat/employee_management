@@ -3,7 +3,7 @@ import { PaginationQueryDto } from '../dto/pagination-query.dto';
 
 @Injectable()
 export class PaginationProvider {
- public async paginateQuery(
+  public async paginateQuery(
     paginationQuery: PaginationQueryDto,
     model: any,
     options: any = {},

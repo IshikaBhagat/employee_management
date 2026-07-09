@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import {IsNotEmpty, IsOptional, IsString} from "class-validator"
+import {IsDate, IsNotEmpty, IsOptional, IsString} from "class-validator"
 
 export class CreatePostDto{
     @ApiProperty({
@@ -16,5 +16,13 @@ export class CreatePostDto{
 
     @ApiProperty()
     @IsNotEmpty()
-    userId: number
+    userId: number;
+
+    @ApiPropertyOptional()
+    @IsDate()
+    startDate: Date;
+
+    @ApiPropertyOptional()
+    @IsDate()
+    endDate: Date;
 }

@@ -4,6 +4,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiOperation, ApiParam, ApiTags, ApiQuery } from '@nestjs/swagger';
 import { GetPostsDto } from './dto/get-posts.dto';
+import { ActiveUser } from 'src/auth/decorators/active-user.decorator';
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -32,7 +33,8 @@ export class PostsController {
     }
 
     @Post()
-    create(@Body()  createPostDto: CreatePostDto){
+    create(@Body()  createPostDto: CreatePostDto, @ActiveUser() user: any){
+        console.log(user)
         return this.postsService.create(createPostDto)
     }
     @Put(':id')

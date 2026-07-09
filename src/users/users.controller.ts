@@ -7,31 +7,41 @@ import {
   Patch,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import {ApiTags} from '@nestjs/swagger'
+import {ApiTags, ApiBearerAuth} from '@nestjs/swagger'
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto'
 import { ConfigService } from '@nestjs/config';
+// import { AccessTokenGuard } from 'src/auth/guards/access-token.guard';
 
 @ApiTags('Users')
-@Controller('users')
+@Controller('users')// class decorator
 export class UsersController {
   constructor(private readonly config:ConfigService,
     private readonly usersService: UsersService) {}
 
-  @Get()
+  @Get() // method decorator
   findAll() {
+    //usin config service get method
     const environment = this.config.get('PORT')
+    const node = this.config.get('NODE_ENV')
     console.log(">>>>",environment)
+    console.log("????",node)
+    console.log(this.config.get('COMMON'));
+    console.log(this.config.get('NODE_ENV'));
     return this.usersService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string) { // param/ body decorator
     return this.usersService.findOne(Number(id));
   }
 
+
+  // @ApiBearerAuth()
+  // @UseGuards(AccessTokenGuard) -- for single guard apply on a route
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);

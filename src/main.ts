@@ -22,6 +22,7 @@ async function bootstrap() {
     .setTitle('Employee Management API')
     .setDescription('NestJS + Prisma + PostgreSQL')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

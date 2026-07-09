@@ -3,24 +3,28 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { CreatePostDto } from './dto/create-post.dto';
 import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
-import { PaginationQueryDto } from 'src/common/pagination/dto/pagination-query.dto';
+import { GetPostsDto } from './dto/get-posts.dto';
+import { PostfilterProvider } from './providers/postfilter.provider';
 
 @Injectable()
 export class PostsService {
     constructor(
         private readonly prisma:PrismaService,
-        private readonly paginationProvider: PaginationProvider
+        private readonly paginationProvider: PaginationProvider,
+        private readonly postfilter: PostfilterProvider
     ){}
 
-    async findAll(postQuery: PaginationQueryDto)
+    async findAll(postQuery: GetPostsDto)
     {
+      const options = this.postfilter.buildQuery(postQuery)
       return this.paginationProvider.paginateQuery(
         postQuery,
         this.prisma.post,
+        options
       );
     }
 
-    async findOne(userId : number, postQuery: PaginationQueryDto)
+    async findOne(userId : number, postQuery: GetPostsDto)
     {
         const skip = (postQuery.page-1)*postQuery.limit
         // return this.prisma.post.findMany({
